@@ -1,10 +1,9 @@
 package page;
 
-import mainpage.MainPage;
 import org.openqa.selenium.WebDriver;
 
 
-public class HomePage extends MainPage {
+public class HomePage extends AbstractPage {
 
     public HomePage(WebDriver driver){super(driver);}
 

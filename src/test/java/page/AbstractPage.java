@@ -1,4 +1,4 @@
-package mainpage;
+package page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,13 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import page.CartPage;
 import page.ResultsPage;
 
-public abstract class MainPage {
+public abstract class AbstractPage {
 
     protected WebDriver driver;
     protected static final String HOME_URL = "https://kelme.by";
     protected final long WAIT_TIME_SECONDS = 20;
 
-    public MainPage(WebDriver driver) {
+    public AbstractPage(WebDriver driver) {
         this.driver = driver;
     }
 
