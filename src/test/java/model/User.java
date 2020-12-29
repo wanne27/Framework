@@ -5,9 +5,16 @@ import java.util.Objects;
 public class User {
     private String username;
     private String password;
+    private String userEmail;
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String username, String password,String userEmail) {
+        this.username=username;
+        this.userEmail = userEmail;
+        this.password = password;
+    }
+
+    public User( String password,String userEmail) {
+        this.userEmail = userEmail;
         this.password = password;
     }
 
@@ -25,6 +32,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String username) {
+        this.userEmail = userEmail;
     }
 
     @Override

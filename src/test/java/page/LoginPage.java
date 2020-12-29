@@ -16,6 +16,12 @@ public class LoginPage extends AbstractPage {
     @FindBy(xpath = "//button[@class='btn btn-default bold']")
     private WebElement buttonSubmit;
 
+    @FindBy(xpath = "//i[@class='personal']")
+    private WebElement accountPageButton;
+
+    @FindBy(xpath = "//div[@class='alert alert-danger']")
+    private WebElement faildEmailOrPassword;
+
     public LoginPage(WebDriver driver)
     {
         super(driver);
@@ -41,5 +47,14 @@ public class LoginPage extends AbstractPage {
     public LoginPage clickSubmitButton(){
         buttonSubmit.click();
         return this;
+    }
+
+    public AccountPage clickGoToAccountPageButton(){
+        accountPageButton.click();
+        return new AccountPage(driver);
+    }
+
+    public boolean cheackFaildEmailORPassword(){
+        return  faildEmailOrPassword.isDisplayed();
     }
 }

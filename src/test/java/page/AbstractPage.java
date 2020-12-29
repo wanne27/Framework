@@ -10,6 +10,10 @@ import page.ResultsPage;
 
 public abstract class AbstractPage {
 
+    private final String inputField = "//*[@id=\"title-search-input_fixed\"]";
+    private final String buttonGoTo = "//a[contains(@class,'btn btn-default white')]";
+    private final String buttonGoToMain = "//div[@class = 'basket_count small clicked empty']";
+
     protected WebDriver driver;
     protected static final String HOME_URL = "https://kelme.by";
     protected final long WAIT_TIME_SECONDS = 20;
@@ -18,9 +22,13 @@ public abstract class AbstractPage {
         this.driver = driver;
     }
 
+    public String getCurrentUrl(){
+        return driver.getCurrentUrl();
+    }
+
     public ResultsPage searchForSneakersArticle(String sneakersArticle) {
         WebElement searchInputField = waitForElementLocatedBy(driver,
-                By.xpath("//*[@id=\"title-search-input_fixed\"]"), WAIT_TIME_SECONDS);
+                By.xpath(inputField), WAIT_TIME_SECONDS);
         searchInputField.sendKeys(sneakersArticle);
         searchInputField.submit();
         return new ResultsPage(driver, sneakersArticle);
@@ -28,14 +36,14 @@ public abstract class AbstractPage {
 
     public CartPage openCart() {
         WebElement cartButtonGoTo = waitForElementLocatedBy(driver,
-                By.xpath("//a[contains(@class,'btn btn-default white')]"),WAIT_TIME_SECONDS);
+                By.xpath(buttonGoTo),WAIT_TIME_SECONDS);
         cartButtonGoTo.click();
         return new CartPage(driver);
     }
 
     public CartPage openCartFromMAin() {
         WebElement cartButtonGoTo = waitForElementLocatedBy(driver,
-                By.xpath("//div[@class = 'basket_count small clicked empty']"),WAIT_TIME_SECONDS);
+                By.xpath(buttonGoToMain),WAIT_TIME_SECONDS);
         cartButtonGoTo.click();
         return new CartPage(driver);
     }

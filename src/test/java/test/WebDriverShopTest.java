@@ -2,7 +2,6 @@ package test;
 
 import model.Cart;
 import model.Product;
-import org.apache.commons.math3.util.Precision;
 import org.testng.annotations.Test;
 import page.CartPage;
 import page.HomePage;
@@ -11,26 +10,35 @@ import page.ResultsPage;
 import service.CheckCartEmpty;
 import service.ProductCreator;
 
-import java.awt.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class WebDriverShopTest extends CommonConditions {
-    /*
+
        @Test
         public void searchProductWithFailedArticleTest(){
-            Product testProduct = ProductCreator.withFailedSearch();
+            Product testProduct = ProductCreator.withFailedSearchAndFailedCoupon();
             ResultsPage checkResult = new HomePage(driver)
                     .openPage()
                     .searchForSneakersArticle(testProduct.getFailedArticle());
 
             assertThat(checkResult.getCheckResultSeacrh().contains(testProduct.getFailedArticle())).isTrue();
 
-        }*/
-    /*
+        }
+
+    @Test
+    public void searchProductWithActualArticleTest(){
+        Product testProduct = ProductCreator.withAllProperty();
+        ResultsPage checkResult = new HomePage(driver)
+                .openPage()
+                .searchForSneakersArticle(testProduct.getArticle());
+
+        assertThat(checkResult.selectProductLink()).isTrue();
+
+    }
+
         @Test
         public void cartAfterAddingSneakersTest(){
             Product testProduct = ProductCreator.withAllProperty();
@@ -45,7 +53,29 @@ public class WebDriverShopTest extends CommonConditions {
             assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getPrice()))));
 
         }
-    */
+
+    @Test
+    public void cartAfterAddingSomeSneakersTest(){
+        Product testProduct = ProductCreator.withAddSomeProduct();
+        CartPage cartPage = new ProductPage(driver,testProduct.getProductUrl(),testProduct.getProductSecondUrl())
+                .openPage()
+                .selectedSneakersSize()
+                .addToCart()
+                .openPageSecondProduct()
+                .selectedSecondSneakersSize()
+                .addToCart()
+                .openCart();
+
+        assertThat(cartPage.actualSizeSelected(),is(equalTo(testProduct.getSize())));
+        assertThat(cartPage.actualSizeSecondSelected(),is(equalTo(testProduct.getSize())));
+        assertThat(cartPage.getSneakersArticle(),is(equalTo(testProduct.getArticle())));
+        assertThat(cartPage.getSneakersSecondArticle(),is(equalTo(testProduct.getSecondArticle())));
+        assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getSumPrice()))));
+
+
+
+    }
+
     @Test
     public void checkCartAfterDeleting(){
         Product testProduct = ProductCreator.withAllProperty();
@@ -54,11 +84,59 @@ public class WebDriverShopTest extends CommonConditions {
                 .openPage()
                 .selectedSneakersSize()
                 .addToCart()
-                .openCart()
-                .deleteFromCart()
+                .openCart();
+
+        assertThat(cartPage.getSneakersArticle(),is(equalTo(testProduct.getArticle())));
+        assertThat(cartPage.actualSizeSelected(),is(equalTo(testProduct.getSize())));
+        assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getPrice()))));
+
+        cartPage.deleteFromCart()
                 .openCartFromMAin();
 
         assertThat(cartPage.checkCart()).isTrue();
 
     }
+
+    @Test
+    public void checkCorrectPromokode(){
+        Product testProduct = ProductCreator.withAllProperty();
+        CartPage cartPage =  new ProductPage(driver,testProduct.getProductUrl())
+                .openPage()
+                .selectedSneakersSize()
+                .addToCart()
+                .openCart();
+
+        assertThat(cartPage.getSneakersArticle(),is(equalTo(testProduct.getArticle())));
+        assertThat(cartPage.actualSizeSelected(),is(equalTo(testProduct.getSize())));
+        assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getPrice()))));
+
+        cartPage.inputCorrectPromocode(testProduct.getCoupon())
+                .buttonPromocode();
+
+        assertThat(cartPage.searchChangePrice()).isNotEqualTo(Double.parseDouble((testProduct.getPrice())));
+
+
+    }
+
+    @Test
+    public void checkFaildPromokode(){
+        Product testProduct = ProductCreator.withAllProperty();
+        CartPage cartPage =  new ProductPage(driver,testProduct.getProductUrl())
+                .openPage()
+                .selectedSneakersSize()
+                .addToCart()
+                .openCart();
+
+        assertThat(cartPage.getSneakersArticle(),is(equalTo(testProduct.getArticle())));
+        assertThat(cartPage.actualSizeSelected(),is(equalTo(testProduct.getSize())));
+        assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getPrice()))));
+
+        cartPage.inputCorrectPromocode(testProduct.getCoupon())
+                .buttonPromocode();
+
+        assertThat(cartPage.getCartOrderTotal()).isEqualTo(Double.parseDouble((testProduct.getPrice())));
+
+
+    }
+
 }

@@ -6,4 +6,9 @@
             <class name="test.WebDriverShopTest" />
         </classes>
     </test>
+    <test name="test.LoginTest"   >
+        <classes>
+            <class name="test.LoginTest" />
+        </classes>
+    </test>
 </suite>

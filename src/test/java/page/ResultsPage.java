@@ -13,11 +13,11 @@ public class ResultsPage extends AbstractPage {
         super(driver);
     }
 
-    public ProductPage selectProductLink() {
+    public boolean selectProductLink() {
         WebElement productInfoLink = waitForElementLocatedBy(driver,
                 By.xpath(selectProductLink),WAIT_TIME_SECONDS);
-        productInfoLink.click();
-        return new ProductPage(driver);
+        return  productInfoLink.isDisplayed();
+
     }
 
     public String getCheckResultSeacrh() {

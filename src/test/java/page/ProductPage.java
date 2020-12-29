@@ -9,10 +9,12 @@ public class ProductPage extends AbstractPage {
 
     private final static String PRODUCT_ARTICLE = "//span[@class = 'prod-article' and text() ='$']";
     private final String selectedSneakersSize= "//*[@id='bx_117848907_2422_prop_225_list']/li[3]/div";
+    private final String selectedSecondSneakersSize="//*[@id='bx_117848907_2437_prop_225_cont']//li[1]//div";
     private final String actualSizeSelected = "//div[contains(@class,'bx_size')]//li[contains(@class, 'active')]";
     private final String addToCart ="//div[contains(@class, 'button_block')]//span//span[text()='В корзину']";
 
     private String url;
+    private String secondUrl;
 
     public ProductPage(WebDriver driver){super(driver);}
 
@@ -20,9 +22,19 @@ public class ProductPage extends AbstractPage {
         super(driver);
         this.url = productUrl;
     }
+    public ProductPage(WebDriver driver, String productUrl,String productSecondUrl){
+        super(driver);
+        this.url = productUrl;
+        this.secondUrl=productSecondUrl;
+    }
     public ProductPage openPage()
     {
         driver.get(url);
+        return this;
+    }
+    public ProductPage openPageSecondProduct()
+    {
+        driver.get(secondUrl);
         return this;
     }
 
@@ -31,6 +43,13 @@ public class ProductPage extends AbstractPage {
             By.xpath(selectedSneakersSize),WAIT_TIME_SECONDS);
          sneakersSize.click();
          return this;
+    }
+
+    public ProductPage selectedSecondSneakersSize() {
+        WebElement sneakersSize = waitForElementLocatedBy(driver,
+                By.xpath(selectedSecondSneakersSize),WAIT_TIME_SECONDS);
+        sneakersSize.click();
+        return this;
     }
 
     public String getSneakersArticle(String articleProduct) {

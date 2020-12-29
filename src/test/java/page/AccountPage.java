@@ -24,11 +24,11 @@ public class AccountPage extends AbstractPage {
     }
 
     public String getUserName(){
-        return userNameField.getText();
+        return userNameField.getAttribute("value");
     }
 
     public String getUserNameEmail(){
-        return userNameEmail.getText();
+        return userNameEmail.getAttribute("value");
     }
 
 }
