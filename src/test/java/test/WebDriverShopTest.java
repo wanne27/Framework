@@ -50,8 +50,6 @@ public class WebDriverShopTest extends CommonConditions {
         assertThat(cartPage.getSneakersSecondArticle(),is(equalTo(testProduct.getSecondArticle())));
         assertThat(cartPage.getCartOrderTotal(),is(equalTo(Double.parseDouble(testProduct.getSumPrice()))));
 
-
-
     }
 
     @Test
@@ -72,7 +70,7 @@ public class WebDriverShopTest extends CommonConditions {
                 .openCartFromMAin();
 
         assertThat(cartPage.checkCart()).isTrue();
-
+            
     }
 
     @Test
@@ -92,8 +90,7 @@ public class WebDriverShopTest extends CommonConditions {
                 .buttonPromocode();
 
         assertThat(cartPage.searchChangePrice()).isNotEqualTo(Double.parseDouble((testProduct.getPrice())));
-
-
+            
     }
 
     @Test
@@ -113,7 +110,6 @@ public class WebDriverShopTest extends CommonConditions {
                 .buttonPromocode();
 
         assertThat(cartPage.getCartOrderTotal()).isEqualTo(Double.parseDouble((testProduct.getPrice())));
-
 
     }
        
