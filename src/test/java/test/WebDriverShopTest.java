@@ -17,28 +17,6 @@ import static org.hamcrest.Matchers.is;
 
 public class WebDriverShopTest extends CommonConditions {
 
-       @Test
-        public void searchProductWithFailedArticleTest(){
-            Product testProduct = ProductCreator.withFailedSearchAndFailedCoupon();
-            ResultsPage checkResult = new HomePage(driver)
-                    .openPage()
-                    .searchForSneakersArticle(testProduct.getFailedArticle());
-
-            assertThat(checkResult.getCheckResultSeacrh().contains(testProduct.getFailedArticle())).isTrue();
-
-        }
-
-    @Test
-    public void searchProductWithActualArticleTest(){
-        Product testProduct = ProductCreator.withAllProperty();
-        ResultsPage checkResult = new HomePage(driver)
-                .openPage()
-                .searchForSneakersArticle(testProduct.getArticle());
-
-        assertThat(checkResult.selectProductLink()).isTrue();
-
-    }
-
         @Test
         public void cartAfterAddingSneakersTest(){
             Product testProduct = ProductCreator.withAllProperty();
@@ -136,6 +114,28 @@ public class WebDriverShopTest extends CommonConditions {
 
         assertThat(cartPage.getCartOrderTotal()).isEqualTo(Double.parseDouble((testProduct.getPrice())));
 
+
+    }
+       
+        @Test
+        public void searchProductWithFailedArticleTest(){
+            Product testProduct = ProductCreator.withFailedSearchAndFailedCoupon();
+            ResultsPage checkResult = new HomePage(driver)
+                    .openPage()
+                    .searchForSneakersArticle(testProduct.getFailedArticle());
+
+            assertThat(checkResult.getCheckResultSeacrh().contains(testProduct.getFailedArticle())).isTrue();
+
+        }
+
+    @Test
+    public void searchProductWithActualArticleTest(){
+        Product testProduct = ProductCreator.withAllProperty();
+        ResultsPage checkResult = new HomePage(driver)
+                .openPage()
+                .searchForSneakersArticle(testProduct.getArticle());
+
+        assertThat(checkResult.selectProductLink()).isTrue();
 
     }
 
